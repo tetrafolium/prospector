@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from collections import defaultdict
+import multiprocessing
 import re
 import sys
 import os
@@ -57,6 +58,8 @@ class PylintTool(ToolBase):
                 pass
 
         options = prospector_config.tool_options('pylint')
+        if options.get('jobs') == 'auto':
+            options['jobs'] = multiprocessing.cpu_count()
 
         for checker in linter.get_checkers():
             if not hasattr(checker, 'options'):
