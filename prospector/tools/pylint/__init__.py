@@ -58,7 +58,7 @@ class PylintTool(ToolBase):
                 pass
 
         options = prospector_config.tool_options('pylint')
-        if options.get('jobs') == 'auto':
+        if options.get('jobs', 'auto') == 'auto':
             options['jobs'] = multiprocessing.cpu_count()
 
         for checker in linter.get_checkers():
