@@ -1,6 +1,9 @@
 Prospector Changelog
 =======
 
+## TBA
+- Pylint jobs
+
 ## Version 1.2.0
 - Drop Python 3.4 support
 - [#308](https://github.com/PyCQA/prospector/pull/308) Update pyflakes support to < 2.1.0
