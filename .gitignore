@@ -55,6 +55,8 @@ flycheck*
 .env
 .venv
 venv
+.envrc
+.python-version
 
 # Pylint
 .pylint.d
