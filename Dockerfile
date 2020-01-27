@@ -15,15 +15,16 @@ RUN useradd -m $USERNAME
 RUN echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME
 RUN chmod 0440 /etc/sudoers.d/$USERNAME
 
-RUN echo "    StrictHostKeyChecking no" >> /etc/ssh/ssh_config
-
-RUN mkdir -p /workspaces/prospector
-RUN chown -Rf 1000:1000 /workspaces/prospector
-COPY --chown=1000:1000 . /workspaces/prospector/
-ENV HOME /workspaces/prospector
 USER $USERNAME
-WORKDIR /workspaces/prospector/
-RUN sudo python3 -m pip install --no-cache-dir -e .[with_everything]
-RUN sudo python3 -m pip install --no-cache-dir pre-commit rope
-RUN pre-commit install
+WORKDIR /home/prospector-dev
+
+ENV PATH="$HOME/.local/bin:$PATH"
+RUN mkdir -p prospector
+RUN chown -Rf 1000:1000 prospector
+COPY --chown=1000:1000 . prospector/
+
+WORKDIR /home/prospector-dev/prospector
+
+RUN python3 -m pip install --user -e .[with_everything]
+
 ENV DEBIAN_FRONTEND=dialog
