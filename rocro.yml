@@ -1,0 +1,46 @@
+inspecode:
+
+    autopep8:
+        auto-fix: true
+        thresholds: { num-issues: 999 }
+
+    cpd:
+        thresholds: { num-issues: 999 }
+
+    grep:
+        thresholds: { num-issues: 999 }
+
+    flake8:
+        thresholds: { num-issues: 999 }
+
+    jscpd:
+        thresholds: { num-issues: 999 }
+
+    misspell:
+        auto-fix: true
+        thresholds: { num-issues: 999 }
+
+    nose2:
+        thresholds: { num-issues: 999 }
+
+    prospector:
+        thresholds: { num-issues: 999 }
+
+    pycodestyle:
+        thresholds: { num-issues: 999 }
+
+    pyflakes:
+        thresholds: { num-issues: 999 }
+
+    pylint:
+        thresholds: { num-issues: 999 }
+
+    pytest:
+        thresholds: { num-issues: 999 }
+
+    unused:
+        thresholds: { num-issues: 999 }
+
+    yapf:
+        auto-fix: true
+        thresholds: { num-issues: 999 }
