@@ -1,5 +1,9 @@
 inspecode:
 
+    experimental:
+        runtime:
+            python: 3.7
+
     autopep8:
         auto-fix: true
         thresholds: { num-issues: 999 }
