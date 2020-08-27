@@ -9,7 +9,6 @@ from collections import defaultdict
 import pkg_resources
 import yaml
 
-
 __all__ = (
     'blend',
     'BLEND_COMBOS',
@@ -53,11 +52,8 @@ def blend_line(messages, blend_combos=None):
     for blend_combo_idx, blend_list in enumerate(blend_lists):
         if len(blend_list) == 0:
             continue
-        blend_list.sort(
-            key=lambda msg: blend_combos[blend_combo_idx].index(
-                (msg.source, msg.code),
-            ),
-        )
+        blend_list.sort(key=lambda msg: blend_combos[blend_combo_idx].index(
+            (msg.source, msg.code), ), )
         if blend_list[0] not in blended:
             # We may have already added this message if it represents
             # several messages in other tools which are not being run -
@@ -85,8 +81,7 @@ def blend(messages, blend_combos=None):
 
     for message in messages:
         msgs_grouped[message.location.path][message.location.line].append(
-            message,
-        )
+            message, )
 
     # now blend together all messages on the same line
     out = []
@@ -99,8 +94,7 @@ def blend(messages, blend_combos=None):
 
 def get_default_blend_combinations():
     combos = yaml.safe_load(
-        pkg_resources.resource_string(__name__, 'blender_combinations.yaml')
-    )
+        pkg_resources.resource_string(__name__, 'blender_combinations.yaml'))
     combos = combos.get('combinations', [])
 
     defaults = []

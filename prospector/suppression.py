@@ -25,7 +25,6 @@ import warnings
 from prospector import encoding
 from collections import defaultdict
 
-
 _FLAKE8_IGNORE_FILE = re.compile(r'flake8[:=]\s*noqa', re.IGNORECASE)
 _PEP8_IGNORE_LINE = re.compile(r'#\s+noqa', re.IGNORECASE)
 _PYLINT_SUPPRESSED_MESSAGE = re.compile(
@@ -97,8 +96,8 @@ def get_suppressions(relative_filepaths, root, messages):
             file_contents = encoding.read_py_file(abspath).split('\n')
         except encoding.CouldNotHandleEncoding as err:
             # TODO: this output will break output formats such as JSON
-            warnings.warn('{0}: {1}'.format(
-                err.path, err.cause), ImportWarning)
+            warnings.warn('{0}: {1}'.format(err.path, err.cause),
+                          ImportWarning)
             continue
 
         ignore_file, ignore_lines = get_noqa_suppressions(file_contents)

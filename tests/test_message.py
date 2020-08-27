@@ -3,7 +3,6 @@ from prospector.message import Location
 
 
 class LocationOrderTest(TestCase):
-
     def test_path_order(self):
 
         locs = [

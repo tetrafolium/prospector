@@ -37,15 +37,15 @@ class PylintTool(ToolBase):
         if 'flask' in prospector_config.libraries:
             linter.load_plugin_modules(['pylint_flask'])
 
-        profile_path = os.path.join(
-            prospector_config.workdir, prospector_config.profile.name)
+        profile_path = os.path.join(prospector_config.workdir,
+                                    prospector_config.profile.name)
         for plugin in prospector_config.profile.pylint.get('load-plugins', []):
             try:
                 linter.load_plugin_modules([plugin])
             except ImportError:
                 errors.append(
-                    self._error_message(
-                        profile_path, "Could not load plugin %s" % plugin))
+                    self._error_message(profile_path,
+                                        "Could not load plugin %s" % plugin))
 
         for msg_id in prospector_config.get_disabled_messages('pylint'):
             try:
