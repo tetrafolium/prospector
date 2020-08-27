@@ -2,49 +2,63 @@ inspecode:
 
     experimental:
         runtime:
-            python: 3.7
+            python: 2.7
+            #python: 3.7
 
     autopep8:
         auto-fix: true
-        thresholds: { num-issues: 999 }
+        thresholds: { num-issues: 33 }
 
     cpd:
-        thresholds: { num-issues: 999 }
+        thresholds: { num-issues: 0 }
+
+    #------------------------------------------------------
+    # Failed with Python { 2.7, 3.7 } runtime.
+    #------------------------------------------------------
+    #flake8:
+    #    thresholds: { num-issues: 999 }
 
     grep:
-        thresholds: { num-issues: 999 }
-
-    flake8:
-        thresholds: { num-issues: 999 }
+        thresholds: { num-issues: 7 }
 
     jscpd:
-        thresholds: { num-issues: 999 }
+        thresholds: { num-issues: 3 }
 
     misspell:
         auto-fix: true
-        thresholds: { num-issues: 999 }
+        thresholds: { num-issues: 15 }
 
-    nose2:
-        thresholds: { num-issues: 999 }
+    #------------------------------------------------------
+    # Failed with Python { 2.7, 3.7 } runtime.
+    #------------------------------------------------------
+    #nose2:
+    #    thresholds: { num-issues: 999 }
 
-    prospector:
-        thresholds: { num-issues: 999 }
+    #------------------------------------------------------
+    # Failed with Python { 2.7, 3.7 } runtime.
+    #------------------------------------------------------
+    #prospector:
+    #    thresholds: { num-issues: 999 }
 
     pycodestyle:
-        thresholds: { num-issues: 999 }
+        thresholds: { num-issues: 325 }
 
     pyflakes:
-        thresholds: { num-issues: 999 }
+        thresholds: { num-issues: 7 }
 
     pylint:
-        thresholds: { num-issues: 999 }
+        thresholds: { num-issues: 490 }
+            # 490 issues with Python 2.7 runtime.
+            # 469 issues with Python 3.7 runtime.
 
     pytest:
         thresholds: { num-issues: 999 }
+            # Failed (ImportError while importing test module) with Python 2.7 runtime.
+            # "found no input files" with Python 3.7 runtime.
 
     unused:
-        thresholds: { num-issues: 999 }
+        thresholds: { num-issues: 99 }
 
     yapf:
         auto-fix: true
-        thresholds: { num-issues: 999 }
+        thresholds: { num-issues: 55 }
