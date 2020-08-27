@@ -181,7 +181,7 @@ def build_command_line_source(prog=None, description='Performs static analysis o
                     'default, the following tools will be run: %s' % (
                         ', '.join(sorted(TOOLS.keys())),
                         ', '.join(sorted(DEFAULT_TOOLS)),
-                    ),
+            ),
         },
         'with_tools': {
             'flags': ['-w', '--with-tool'],
@@ -189,7 +189,7 @@ def build_command_line_source(prog=None, description='Performs static analysis o
                     'To specify all tools explicitly, use the --tool argument. '
                     'Possible values are %s.' % (
                         ', '.join(sorted(TOOLS.keys()))
-                    ),
+            ),
 
         },
         'without_tools': {
@@ -199,7 +199,7 @@ def build_command_line_source(prog=None, description='Performs static analysis o
                     'To specify all tools explicitly, use the --tool argument. '
                     'Possible values are %s.' % (
                         ', '.join(sorted(TOOLS.keys()))
-                    ),
+            ),
 
         },
         'profiles': {

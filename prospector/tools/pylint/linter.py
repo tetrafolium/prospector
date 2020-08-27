@@ -23,7 +23,8 @@ class ProspectorLinter(PyLinter):  # pylint: disable=too-many-ancestors,too-many
             self.read_config_file(config_file)
             if self.cfgfile_parser.has_option('MASTER', 'load-plugins'):
                 # pylint: disable=protected-access
-                plugins = _splitstrip(self.cfgfile_parser.get('MASTER', 'load-plugins'))
+                plugins = _splitstrip(
+                    self.cfgfile_parser.get('MASTER', 'load-plugins'))
                 self.load_plugin_modules(plugins)
             self.load_config_file()
             return True
@@ -38,7 +39,8 @@ class ProspectorLinter(PyLinter):  # pylint: disable=too-many-ancestors,too-many
         if PYLINT_VERSION >= (2, 0):
             OptionsManagerMixIn.__init__(self, usage=PyLinter.__doc__)
         else:
-            OptionsManagerMixIn.__init__(self, usage=PyLinter.__doc__, quiet=True)
+            OptionsManagerMixIn.__init__(
+                self, usage=PyLinter.__doc__, quiet=True)
 
     def expand_files(self, modules):
         expanded = PyLinter.expand_files(self, modules)
