@@ -37,7 +37,7 @@ inspecode:
     #    thresholds: { num-issues: 999 }
 
     prospector:
-        thresholds: { num-issues: 167 }
+        thresholds: { num-issues: 169 }
 
     pycodestyle:
         thresholds: { num-issues: 324 }
