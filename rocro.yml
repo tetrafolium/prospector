@@ -17,6 +17,9 @@ inspecode:
     #flake8:
     #    thresholds: { num-issues: 999 }
 
+    fossology:
+        thresholds: { num-issues: 999 }
+
     grep:
         thresholds: { num-issues: 7 }
 
