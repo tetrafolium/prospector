@@ -41,7 +41,7 @@ class MypyTool(ToolBase):
 
         follow_imports = options.get('follow-imports', 'normal')
         ignore_missing_imports = options.get('ignore-missing-imports', False)
-        implict_optional = options.get('implict-optional', False)
+        implicit_optional = options.get('implict-optional', False)
         platform = options.get('platform', None)
         python_2_mode = options.get('python-2-mode', False)
         python_version = options.get('python-version', None)
@@ -55,8 +55,8 @@ class MypyTool(ToolBase):
         if ignore_missing_imports:
             self.options.append('--ignore-missing-imports')
 
-        if implict_optional:
-            self.options.append('--implict-optional')
+        if implicit_optional:
+            self.options.append('--implicit-optional')
 
         if platform:
             self.options.append('--platform %s' % platform)

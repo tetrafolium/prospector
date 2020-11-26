@@ -76,10 +76,10 @@ class PylintTool(ToolBase):
         linter.enable(
             'file-ignored')  # notification about disabling an entire file
         linter.enable('suppressed-message'
-                      )  # notification about a message being supressed
+                      )  # notification about a message being suppressed
         linter.disable(
             'useless-suppression'
-        )  # notification about message supressed which was not raised
+        )  # notification about message suppressed which was not raised
         linter.disable(
             'deprecated-pragma'
         )  # notification about use of deprecated 'pragma' option
