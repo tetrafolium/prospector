@@ -1,59 +1,63 @@
 inspecode:
 
-    global:
-        runtime:
-            python: 3
+  global:
+    runtime:
+      python: 3
+
+  tasks:
+
+  tools:
 
     autopep8:
-        auto-fix: true
-        thresholds: { num-issues: 32 }
+      auto-fix: true
+      thresholds: {num-issues: 32}
 
     cpd:
-        thresholds: { num-issues: 0 }
+      thresholds: {num-issues: 0}
 
-    #------------------------------------------------------
-    # Failed
-    #------------------------------------------------------
-    #flake8:
-    #    thresholds: { num-issues: 999 }
+    ### ------------------------------------------------------
+    ### Failed
+    ### ------------------------------------------------------
+    # flake8:
+    #   thresholds: {num-issues: 999}
 
     fossology:
-        thresholds: { num-issues: 999 }
+      thresholds: {num-issues: 4}
 
     grep:
-        thresholds: { num-issues: 7 }
+      thresholds: {num-issues: 7}
 
     jscpd:
-        thresholds: { num-issues: 3 }
+      thresholds: {num-issues: 3}
 
     misspell:
-        auto-fix: true
-        thresholds: { num-issues: 15 }
+      auto-fix: true
+      thresholds: {num-issues: 15}
 
-    #------------------------------------------------------
-    # Failed
-    #------------------------------------------------------
-    #nose2:
-    #    thresholds: { num-issues: 999 }
+    ### ------------------------------------------------------
+    ### Failed
+    ### ------------------------------------------------------
+    # nose2:
+    #   thresholds: {num-issues: 999}
 
     prospector:
-        thresholds: { num-issues: 169 }
+      thresholds: {num-issues: 169}
 
     pycodestyle:
-        thresholds: { num-issues: 324 }
+      thresholds: {num-issues: 324}
 
     pyflakes:
-        thresholds: { num-issues: 7 }
+      thresholds: {num-issues: 7}
 
     pylint:
-        thresholds: { num-issues: 469 }
+      thresholds: {num-issues: 469}
 
     pytest:
-        thresholds: { num-issues: 0 }   # "found no input files"
+      thresholds: {num-issues: 0}   # "found no input files"
 
     unused:
-        thresholds: { num-issues: 99 }
+      thresholds: {num-issues: 99}
 
     yapf:
-        auto-fix: true
-        thresholds: { num-issues: 55 }
+      auto-fix: true
+      thresholds: {num-issues: 55}
