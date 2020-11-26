@@ -1,10 +1,6 @@
 from prospector.formatters.base import Formatter
 
-
-__all__ = (
-    'TextFormatter',
-)
-
+__all__ = ('TextFormatter', )
 
 # pylint: disable=unnecessary-lambda
 
@@ -40,12 +36,10 @@ class TextFormatter(Formatter):
                     value = summary_label[2](self.summary[key])
                 else:
                     value = self.summary[key]
-                output.append(
-                    ' %s: %s' % (
-                        label.rjust(label_width),
-                        value,
-                    )
-                )
+                output.append(' %s: %s' % (
+                    label.rjust(label_width),
+                    value,
+                ))
 
         return '\n'.join(output)
 
@@ -54,22 +48,18 @@ class TextFormatter(Formatter):
         output = []
 
         if message.location.module:
-            output.append('%s (%s):' % (
-                message.location.module,
-                message.location.path
-            ))
+            output.append('%s (%s):' %
+                          (message.location.module, message.location.path))
         else:
             output.append('%s:' % message.location.path)
 
-        output.append(
-            '    L%s:%s %s: %s - %s' % (
-                message.location.line or '-',
-                message.location.character if message.location.character else '-',
-                message.location.function,
-                message.source,
-                message.code,
-            )
-        )
+        output.append('    L%s:%s %s: %s - %s' % (
+            message.location.line or '-',
+            message.location.character if message.location.character else '-',
+            message.location.function,
+            message.source,
+            message.code,
+        ))
 
         output.append('    %s' % message.message)
 
@@ -89,12 +79,7 @@ class TextFormatter(Formatter):
         return '\n'.join(output)
 
     def render_profile(self):
-        output = [
-            'Profile',
-            '=======',
-            '',
-            self.profile.as_yaml().strip()
-        ]
+        output = ['Profile', '=======', '', self.profile.as_yaml().strip()]
 
         return '\n'.join(output)
 

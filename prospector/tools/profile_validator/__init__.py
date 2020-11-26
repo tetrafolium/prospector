@@ -7,7 +7,6 @@ from prospector.profiles import AUTO_LOADED_PROFILES
 from prospector.tools import ToolBase
 from prospector.tools import pyflakes
 
-
 PROFILE_IS_EMPTY = 'profile-is-empty'
 CONFIG_SETTING_SHOULD_BE_LIST = 'should-be-list'
 CONFIG_UNKNOWN_SETTING = 'unknown-setting'
@@ -21,15 +20,20 @@ CONFIG_DEPRECATED_CODE = 'deprecated-tool-code'
 
 class ProfileValidationTool(ToolBase):
 
-    LIST_SETTINGS = (
-        'inherits', 'uses', 'ignore', 'ignore-paths', 'ignore-patterns'
-    )
+    LIST_SETTINGS = ('inherits', 'uses', 'ignore', 'ignore-paths',
+                     'ignore-patterns')
     ALL_SETTINGS = LIST_SETTINGS + (
-        'strictness', 'autodetect', 'max-line-length',
-        'output-format', 'doc-warnings', 'test-warnings', 'member-warnings',
+        'strictness',
+        'autodetect',
+        'max-line-length',
+        'output-format',
+        'doc-warnings',
+        'test-warnings',
+        'member-warnings',
         # bit of a grim hack; prospector does not use the following but Landscape does:
         # TODO: think of a better way to avoid Landscape-specific config leaking into prospector
-        'requirements', 'python-targets',
+        'requirements',
+        'python-targets',
     )
 
     def __init__(self):
@@ -72,8 +76,9 @@ class ProfileValidationTool(ToolBase):
 
         if parsed is None:
             # this happens if a completely empty profile is found
-            add_message(PROFILE_IS_EMPTY, "%s is a completely empty profile" %
-                        relative_filepath, 'entire-file')
+            add_message(PROFILE_IS_EMPTY,
+                        "%s is a completely empty profile" % relative_filepath,
+                        'entire-file')
             return messages
 
         for setting in ('doc-warnings', 'test-warnings', 'autodetect'):
@@ -83,13 +88,16 @@ class ProfileValidationTool(ToolBase):
 
         if not isinstance(parsed.get('max-line-length', 0), int):
             add_message(CONFIG_SETTING_MUST_BE_INTEGER,
-                        '"max-line-length" should be an integer', 'max-line-length')
+                        '"max-line-length" should be an integer',
+                        'max-line-length')
 
         if 'strictness' in parsed:
             possible = ('veryhigh', 'high', 'medium', 'low', 'verylow', 'none')
             if parsed['strictness'] not in possible:
-                add_message(CONFIG_INVALID_VALUE, '"strictness" must be one of %s' % ', '.join(
-                    possible), 'strictness')
+                add_message(
+                    CONFIG_INVALID_VALUE,
+                    '"strictness" must be one of %s' % ', '.join(possible),
+                    'strictness')
 
         if 'uses' in parsed:
             possible = ('django', 'celery', 'flask')
@@ -97,15 +105,16 @@ class ProfileValidationTool(ToolBase):
                 parsed['uses'], list) else [parsed['uses']]
             for uses in parsed_list:
                 if uses not in possible:
-                    add_message(CONFIG_INVALID_VALUE,
-                                '"%s" is not valid for "uses", must be one of %s' % (
-                                    uses, ', '.join(possible)),
-                                uses)
+                    add_message(
+                        CONFIG_INVALID_VALUE,
+                        '"%s" is not valid for "uses", must be one of %s' %
+                        (uses, ', '.join(possible)), uses)
 
         if 'ignore' in parsed:
-            add_message(CONFIG_DEPRECATED_SETTING,
-                        '"ignore" is deprecated, please update to use "ignore-patterns" instead',
-                        'ignore')
+            add_message(
+                CONFIG_DEPRECATED_SETTING,
+                '"ignore" is deprecated, please update to use "ignore-patterns" instead',
+                'ignore')
 
         if 'python-targets' in parsed:
             python_targets = parsed['python-targets'] \
@@ -114,9 +123,10 @@ class ProfileValidationTool(ToolBase):
 
             for target in python_targets:
                 if str(target) not in ('2', '3'):
-                    add_message(CONFIG_INVALID_VALUE,
-                                '"%s" is not valid for "python-targets", must be either 2 or 3' % target,
-                                str(target))
+                    add_message(
+                        CONFIG_INVALID_VALUE,
+                        '"%s" is not valid for "python-targets", must be either 2 or 3'
+                        % target, str(target))
 
         for pattern in parsed.get('ignore-patterns', []):
             try:
@@ -133,23 +143,27 @@ class ProfileValidationTool(ToolBase):
                             '"%s" should be a list' % key, key)
 
         for key in parsed.keys():
-            if key not in ProfileValidationTool.ALL_SETTINGS and key not in self.tool_names():
+            if key not in ProfileValidationTool.ALL_SETTINGS and key not in self.tool_names(
+            ):
                 add_message(CONFIG_UNKNOWN_SETTING,
-                            '"%s" is not a valid prospector setting' % key, key)
+                            '"%s" is not a valid prospector setting' % key,
+                            key)
 
         if 'pyflakes' in parsed:
-            for code in parsed['pyflakes'].get('enable', []) + parsed['pyflakes'].get('disable', []):
+            for code in parsed['pyflakes'].get(
+                    'enable', []) + parsed['pyflakes'].get('disable', []):
                 if code in pyflakes.LEGACY_CODE_MAP:
-                    add_message(CONFIG_DEPRECATED_CODE,
-                                'Pyflakes code %s was renamed to %s' % (
-                                    code, pyflakes.LEGACY_CODE_MAP[code]),
-                                'pyflakes')
+                    add_message(
+                        CONFIG_DEPRECATED_CODE,
+                        'Pyflakes code %s was renamed to %s' %
+                        (code, pyflakes.LEGACY_CODE_MAP[code]), 'pyflakes')
 
         return messages
 
     def run(self, found_files):
         messages = []
-        for rel_filepath in found_files.iter_file_paths(abspath=False, include_ignored=True):
+        for rel_filepath in found_files.iter_file_paths(abspath=False,
+                                                        include_ignored=True):
             for possible in self.to_check:
                 if rel_filepath == possible:
                     abs_filepath = found_files.to_absolute_path(rel_filepath)

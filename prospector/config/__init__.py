@@ -31,8 +31,8 @@ class ProspectorConfig(object):
         self.libraries = self._find_used_libraries(self.config, self.profile)
         self.tools_to_run = self._determine_tool_runners(
             self.config, self.profile)
-        self.ignores = self._determine_ignores(
-            self.config, self.profile, self.libraries)
+        self.ignores = self._determine_ignores(self.config, self.profile,
+                                               self.libraries)
         self.configured_by = {}
         self.messages = []
 
@@ -65,8 +65,8 @@ class ProspectorConfig(object):
 
         for index, report in enumerate(output_report):
             if not all(report):
-                output_report[index] = (
-                    report[0] or 'grouped', report[1] or [])
+                output_report[index] = (report[0] or 'grouped', report[1]
+                                        or [])
 
         return output_report
 
@@ -99,7 +99,8 @@ class ProspectorConfig(object):
         if not profile_provided:
             for possible_profile in AUTO_LOADED_PROFILES:
                 prospector_yaml = os.path.join(path, possible_profile)
-                if os.path.exists(prospector_yaml) and os.path.isfile(prospector_yaml):
+                if os.path.exists(prospector_yaml) and os.path.isfile(
+                        prospector_yaml):
                     profile_provided = True
                     profile_name = possible_profile
                     break
@@ -151,15 +152,18 @@ class ProspectorConfig(object):
 
         try:
             forced_inherits = cmdline_implicit + extra_profiles
-            profile = ProspectorProfile.load(
-                profile_name, profile_path, forced_inherits=forced_inherits)
+            profile = ProspectorProfile.load(profile_name,
+                                             profile_path,
+                                             forced_inherits=forced_inherits)
         except CannotParseProfile as cpe:
-            sys.stderr.write("Failed to run:\nCould not parse profile %s as it is not valid YAML\n%s\n" %
-                             (cpe.filepath, cpe.get_parse_message()))
+            sys.stderr.write(
+                "Failed to run:\nCould not parse profile %s as it is not valid YAML\n%s\n"
+                % (cpe.filepath, cpe.get_parse_message()))
             sys.exit(1)
         except ProfileNotFound as nfe:
-            sys.stderr.write("Failed to run:\nCould not find profile %s. Search path: %s\n" %
-                             (nfe.name, ':'.join(nfe.profile_path)))
+            sys.stderr.write(
+                "Failed to run:\nCould not find profile %s. Search path: %s\n"
+                % (nfe.name, ':'.join(nfe.profile_path)))
             sys.exit(1)
         else:
             return profile, strictness
@@ -200,7 +204,8 @@ class ProspectorConfig(object):
             if tool in to_run:
                 to_run.remove(tool)
 
-        if config.tools is None and len(config.with_tools) == 0 and len(config.without_tools) == 0:
+        if config.tools is None and len(config.with_tools) == 0 and len(
+                config.without_tools) == 0:
             for tool in tools.TOOLS.keys():
                 enabled = profile.is_tool_enabled(tool)
                 if enabled is None:
@@ -234,9 +239,7 @@ class ProspectorConfig(object):
 
         # some libraries have further automatic ignores
         if 'django' in libraries:
-            ignores += [
-                re.compile('(^|/)(south_)?migrations(/|$)')
-            ]
+            ignores += [re.compile('(^|/)(south_)?migrations(/|$)')]
 
         return ignores
 

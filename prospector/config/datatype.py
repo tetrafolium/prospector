@@ -11,8 +11,9 @@ class OutputChoice(Choice):
         output_format, output_targets = parsed[0], parsed[1:]
         checked_targets = []
         for i, target in enumerate(output_targets):
-            if sys.platform.startswith('win') and target.startswith((os.path.sep, os.path.altsep)):
-                checked_targets[-1] += ':'+target
+            if sys.platform.startswith('win') and target.startswith(
+                (os.path.sep, os.path.altsep)):
+                checked_targets[-1] += ':' + target
             else:
                 checked_targets.append(target)
         validated_format = super(OutputChoice, self).sanitize(output_format)

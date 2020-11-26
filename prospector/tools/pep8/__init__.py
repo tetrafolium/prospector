@@ -16,10 +16,7 @@ except ImportError:
 from prospector.message import Location, Message
 from prospector.tools.base import ToolBase
 
-
-__all__ = (
-    'Pep8Tool',
-)
+__all__ = ('Pep8Tool', )
 
 
 class ProspectorReport(BaseReport):
@@ -106,8 +103,10 @@ class Pep8Tool(ToolBase):
         if prospector_config.use_external_config('pep8'):
             use_config = True
 
-            paths = [os.path.join(found_files.rootpath, name)
-                     for name in PROJECT_CONFIG]
+            paths = [
+                os.path.join(found_files.rootpath, name)
+                for name in PROJECT_CONFIG
+            ]
             paths.append(USER_CONFIG)
             ext_loc = prospector_config.external_config_location('pep8')
             if ext_loc is not None:
@@ -118,7 +117,10 @@ class Pep8Tool(ToolBase):
                     # this file exists - but does it have pep8 config in it?
                     header = re.compile(r'\[pep8\]')
                     with open(conf_path) as conf_file:
-                        if any([header.search(line) for line in conf_file.readlines()]):
+                        if any([
+                                header.search(line)
+                                for line in conf_file.readlines()
+                        ]):
                             external_config = conf_path
                             break
 
@@ -150,11 +152,9 @@ class Pep8Tool(ToolBase):
         check_paths = [found_files.to_absolute_path(p) for p in check_paths]
 
         # Instantiate our custom pep8 checker.
-        self.checker = ProspectorStyleGuide(
-            paths=check_paths,
-            found_files=found_files,
-            config_file=external_config
-        )
+        self.checker = ProspectorStyleGuide(paths=check_paths,
+                                            found_files=found_files,
+                                            config_file=external_config)
         if not use_config or external_config is None:
             configured_by = None
             # This means that we don't have existing config to use.

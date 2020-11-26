@@ -35,13 +35,15 @@ class BanditTool(ToolBase):
             self.severity = options['severity']
             if not 0 <= self.severity <= 2:
                 raise ValueError(
-                    'severity {!r} must be between 0 and 2'.format(self.severity))
+                    'severity {!r} must be between 0 and 2'.format(
+                        self.severity))
 
         if 'confidence' in options:
             self.confidence = options['confidence']
             if not 0 <= self.confidence <= 2:
                 raise ValueError(
-                    'confidence {!r} must be between 0 and 2'.format(self.confidence))
+                    'confidence {!r} must be between 0 and 2'.format(
+                        self.confidence))
 
         b_conf = BanditConfig(config_file=self.config_file)
         profile = _get_profile(b_conf, self.profile, self.config_file)
@@ -60,12 +62,11 @@ class BanditTool(ToolBase):
         self.manager.run_tests()
         results = self.manager.get_issue_list(
             sev_level=RANKING[self.severity],
-            conf_level=RANKING[self.confidence]
-        )
+            conf_level=RANKING[self.confidence])
         messages = []
         for result in results:
-            loc = Location(os.path.abspath(result.fname),
-                           None, '', int(result.lineno), 0)
+            loc = Location(os.path.abspath(result.fname), None, '',
+                           int(result.lineno), 0)
             msg = Message('bandit', result.test_id, loc, result.text)
             messages.append(msg)
         return messages

@@ -7,11 +7,7 @@ from pyflakes.reporter import Reporter
 from prospector.message import Location, Message
 from prospector.tools.base import ToolBase
 
-
-__all__ = (
-    'PyFlakesTool',
-)
-
+__all__ = ('PyFlakesTool', )
 
 # Prospector uses the same pyflakes codes as flake8 defines,
 # see http://flake8.readthedocs.org/en/latest/warnings.html
@@ -56,13 +52,12 @@ class ProspectorReporter(Reporter):
         self.ignore = ignore or ()
 
     # pylint: disable=too-many-arguments
-    def record_message(
-            self,
-            filename=None,
-            line=None,
-            character=None,
-            code=None,
-            message=None):
+    def record_message(self,
+                       filename=None,
+                       line=None,
+                       character=None,
+                       code=None,
+                       message=None):
 
         code = code or 'F999'
         if code in self.ignore:
@@ -123,8 +118,9 @@ class PyFlakesTool(ToolBase):
     def configure(self, prospector_config, _):
         ignores = prospector_config.get_disabled_messages('pyflakes')
         # convert old style to new
-        self.ignore_codes = [LEGACY_CODE_MAP.get(
-            code, code) for code in ignores]
+        self.ignore_codes = [
+            LEGACY_CODE_MAP.get(code, code) for code in ignores
+        ]
 
     def run(self, found_files):
         reporter = ProspectorReporter(ignore=self.ignore_codes)

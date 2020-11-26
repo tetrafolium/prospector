@@ -5,17 +5,8 @@ from prospector.message import Message, Location
 
 class TestBlendLine(TestCase):
 
-    BLEND = (
-        (
-            ('s1', 's1c01'),
-            ('s2', 's2c12')
-        ),
-        (
-            ('s3', 's3c81'),
-            ('s1', 's1c04'),
-            ('s2', 's2c44')
-        )
-    )
+    BLEND = ((('s1', 's1c01'), ('s2', 's2c12')),
+             (('s3', 's3c81'), ('s1', 's1c04'), ('s2', 's2c44')))
 
     def _do_test(self, messages, expected):
         def _msg(source, code):
@@ -32,11 +23,7 @@ class TestBlendLine(TestCase):
 
     def test_blend_line(self):
 
-        messages = (
-            ('s2', 's2c12'),
-            ('s2', 's2c11'),
-            ('s1', 's1c01')
-        )
+        messages = (('s2', 's2c12'), ('s2', 's2c11'), ('s1', 's1c01'))
 
         expected = (
             ('s1', 's1c01'),
@@ -52,21 +39,15 @@ class TestBlendLine(TestCase):
             ('s3', 's3c81'),
         )
         # the s3 message is the highest priority
-        expected = (
-            ('s3', 's3c81'),
-        )
+        expected = (('s3', 's3c81'), )
         self._do_test(messages, expected)
 
     def test_nothing_to_blend(self):
         """
         Verifies that messages pass through if there is nothing to blend
         """
-        messages = (
-            ('s4', 's4c99'),
-            ('s4', 's4c01'),
-            ('s5', 's5c51'),
-            ('s6', 's6c66')
-        )
+        messages = (('s4', 's4c99'), ('s4', 's4c01'), ('s5', 's5c51'),
+                    ('s6', 's6c66'))
         self._do_test(messages, messages)  # expected = messages
 
     def test_no_messages(self):
@@ -78,12 +59,7 @@ class TestBlendLine(TestCase):
 
 class TestBlend(TestCase):
 
-    BLEND = (
-        (
-            ('s1', 's1c001'),
-            ('s2', 's2c101')
-        ),
-    )
+    BLEND = ((('s1', 's1c001'), ('s2', 's2c101')), )
 
     def test_multiple_lines(self):
         def _msg(source, code, line_number):
@@ -101,10 +77,7 @@ class TestBlend(TestCase):
         result = [(msg.source, msg.code, msg.location.line) for msg in result]
         result = set(result)
 
-        expected = set((
-            ('s1', 's1c001', 4),
-            ('s1', 's1c001', 6),
-            ('s2', 's2c001', 6)
-        ))
+        expected = set(
+            (('s1', 's1c001', 4), ('s1', 's1c001', 6), ('s2', 's2c001', 6)))
 
         self.assertEqual(expected, result)

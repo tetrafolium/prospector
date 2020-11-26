@@ -4,10 +4,7 @@ import yaml
 
 from prospector.formatters.base import Formatter
 
-
-__all__ = (
-    'YamlFormatter',
-)
+__all__ = ('YamlFormatter', )
 
 
 # pylint: disable=too-few-public-methods

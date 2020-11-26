@@ -19,7 +19,6 @@ finally:
     # always restore logging.basicConfig
     logging.basicConfig = _old
 
-
 PYROMA_ALL_CODES = {
     'Name': 'PYR01',
     'Version': 'PYR02',
@@ -51,7 +50,6 @@ PYROMA_TEST_CLASSES = [t.__class__ for t in ratings.ALL_TESTS]
 
 
 class PyromaTool(ToolBase):
-
     def __init__(self, *args, **kwargs):
         super(PyromaTool, self).__init__(*args, **kwargs)
         self.ignore_codes = ()

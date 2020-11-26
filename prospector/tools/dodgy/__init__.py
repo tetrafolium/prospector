@@ -16,13 +16,13 @@ def module_from_path(path):
 
 
 class DodgyTool(ToolBase):
-
     def run(self, found_files):
 
         warnings = []
         for filepath in found_files.iter_file_paths():
             mimetype = mimetypes.guess_type(filepath)
-            if mimetype[0] is None or not mimetype[0].startswith('text/') or mimetype[1] is not None:
+            if mimetype[0] is None or not mimetype[0].startswith(
+                    'text/') or mimetype[1] is not None:
                 continue
             try:
                 contents = read_py_file(filepath)
@@ -30,7 +30,9 @@ class DodgyTool(ToolBase):
                 continue
             for line, code, message in check_file_contents(contents):
                 warnings.append({
-                    'line': line, 'code': code, 'message': message,
+                    'line': line,
+                    'code': code,
+                    'message': message,
                     'path': filepath
                 })
 
@@ -38,8 +40,12 @@ class DodgyTool(ToolBase):
         for warning in warnings:
             path = warning['path']
             prefix = os.path.commonprefix([found_files.rootpath, path])
-            loc = Location(path, module_from_path(
-                path[len(prefix):]), '', warning['line'], 0, absolute_path=True)
+            loc = Location(path,
+                           module_from_path(path[len(prefix):]),
+                           '',
+                           warning['line'],
+                           0,
+                           absolute_path=True)
             msg = Message('dodgy', warning['code'], loc, warning['message'])
             messages.append(msg)
 

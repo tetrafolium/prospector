@@ -4,8 +4,13 @@ import sys
 
 
 class Location(object):
-
-    def __init__(self, path, module, function, line, character, absolute_path=True):
+    def __init__(self,
+                 path,
+                 module,
+                 function,
+                 line,
+                 character,
+                 absolute_path=True):
         if sys.version_info.major == 2 and isinstance(path, str):
             # If this is not a unicode object, make it one! Some tools return
             # paths as unicode, some as bytestring, so to ensure that they are
@@ -56,7 +61,6 @@ class Location(object):
 
 
 class Message(object):
-
     def __init__(self, source, code, location, message):
         self.source = source
         self.code = code
@@ -92,18 +96,20 @@ class Message(object):
         return self.location < other.location
 
 
-def make_tool_error_message(filepath, source, code, message,
-                            line=0, character=0, module=None, function=None):
-    location = Location(
-        path=filepath,
-        module=module,
-        function=function,
-        line=line,
-        character=character
-    )
-    return Message(
-        source=source,
-        code=code,
-        location=location,
-        message=message
-    )
+def make_tool_error_message(filepath,
+                            source,
+                            code,
+                            message,
+                            line=0,
+                            character=0,
+                            module=None,
+                            function=None):
+    location = Location(path=filepath,
+                        module=module,
+                        function=function,
+                        line=line,
+                        character=character)
+    return Message(source=source,
+                   code=code,
+                   location=location,
+                   message=message)

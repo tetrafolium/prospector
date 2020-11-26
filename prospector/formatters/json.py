@@ -6,10 +6,7 @@ from datetime import datetime
 
 from prospector.formatters.base import Formatter
 
-
-__all__ = (
-    'JsonFormatter',
-)
+__all__ = ('JsonFormatter', )
 
 
 # pylint: disable=too-few-public-methods
