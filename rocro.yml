@@ -22,9 +22,9 @@ inspecode:
         - from: dockerfilelint-task
           path: "/.reports/dockerfilelint.sarif"
           format: SARIF
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 5}
 
-    - name: hadolint
+    - name: _hadolint
       type: docker-build
       dockerfile: "inspecode-hadolint.Dockerfile"
       options:
@@ -40,9 +40,9 @@ inspecode:
           path: "/.reports/hadolint.sarif"
           format:
             type: SARIF
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 15}
 
-    - name: yamllint
+    - name: -yamllint
       type: docker-build
       dockerfile: "inspecode-yamllint.Dockerfile"
       options:
@@ -58,7 +58,7 @@ inspecode:
           path: "/.reports/yamllint.sarif"
           format:
             type: SARIF
-      thresholds: {num-issues: 999}
+      thresholds: {num-issues: 77}
 
   tools:
 
