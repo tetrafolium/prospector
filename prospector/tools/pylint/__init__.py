@@ -173,7 +173,8 @@ class PylintTool(ToolBase):
             # try to find a .pylintrc
             pylint_options = prospector_config.tool_options('pylint')
             pylintrc = pylint_options.get('config_file')
-            external_config = prospector_config.external_config_location('pylint')
+            external_config = prospector_config.external_config_location(
+                'pylint')
             if pylintrc is None or external_config:
                 pylintrc = external_config
             if pylintrc is None:

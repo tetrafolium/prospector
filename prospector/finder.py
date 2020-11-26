@@ -73,7 +73,8 @@ class FoundFiles(object):
         self._ignores = ignores
 
     def _check(self, filepath, pathlist, abspath=True, even_if_ignored=False):
-        path = os.path.relpath(filepath, self.rootpath) if abspath else filepath
+        path = os.path.relpath(
+            filepath, self.rootpath) if abspath else filepath
         for checkpath, ignored in pathlist:
             if path == checkpath:
                 if ignored and not even_if_ignored:
@@ -134,9 +135,11 @@ class FoundFiles(object):
             if dirname not in packages:
                 module_list.append(dirname)
 
-        full_list = sorted(set(module_list) | package_list | {self.rootpath}, key=len)
+        full_list = sorted(set(module_list) | package_list |
+                           {self.rootpath}, key=len)
         if absolute_paths:
-            full_list = [os.path.join(self.rootpath, p).rstrip(os.path.sep) for p in full_list]
+            full_list = [os.path.join(self.rootpath, p).rstrip(
+                os.path.sep) for p in full_list]
         return full_list
 
 
@@ -183,7 +186,8 @@ def _find_paths(ignore, curpath, rootpath):
                 packages.append((relpath, ignored))
 
             # do the same for this directory
-            recurse = _find_paths(ignore, os.path.join(curpath, filename), rootpath)
+            recurse = _find_paths(ignore, os.path.join(
+                curpath, filename), rootpath)
             files += recurse[0]
             modules += recurse[1]
             packages += recurse[2]
@@ -209,5 +213,6 @@ def find_python(ignores, paths, explicit_file_mode, workdir=''):
         return SingleFiles(paths, workdir or os.getcwd())
     else:
         assert len(paths) == 1
-        files, modules, directories, packages = _find_paths(ignores, paths[0], workdir)
+        files, modules, directories, packages = _find_paths(
+            ignores, paths[0], workdir)
         return FoundFiles(workdir, files, modules, directories, packages, ignores)

@@ -35,16 +35,19 @@ _INSTALL_REQUIRES = [
 if sys.version_info < (3, 0):
     _INSTALL_REQUIRES += ['pylint<2', 'pylint-django<0.9']
 elif sys.version_info < (3, 5):
-    _INSTALL_REQUIRES += ['pylint==2.3.1', 'pylint-django==2.0.10', 'astroid==2.2.5']
+    _INSTALL_REQUIRES += ['pylint==2.3.1',
+                          'pylint-django==2.0.10', 'astroid==2.2.5']
 else:
-    _INSTALL_REQUIRES += ['pylint==2.4.4', 'pylint-django==2.0.12', 'astroid==2.3.3']
+    _INSTALL_REQUIRES += ['pylint==2.4.4',
+                          'pylint-django==2.0.12', 'astroid==2.3.3']
 
 _PACKAGE_DATA = {
     'prospector': [
         'blender_combinations.yaml',
     ]
 }
-profiledir = os.path.join(os.path.dirname(__file__), 'prospector/profiles/profiles')
+profiledir = os.path.join(os.path.dirname(
+    __file__), 'prospector/profiles/profiles')
 _PACKAGE_DATA['prospector'] += [profile for profile in os.listdir(profiledir)]
 
 _CLASSIFIERS = [

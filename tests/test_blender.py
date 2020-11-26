@@ -108,5 +108,3 @@ class TestBlend(TestCase):
         ))
 
         self.assertEqual(expected, result)
-
-

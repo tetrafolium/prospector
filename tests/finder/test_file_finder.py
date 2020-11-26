@@ -11,7 +11,8 @@ class TestDataMixin:
         root = os.path.join(os.path.dirname(__file__), 'testdata', name)
         files = find_python([], [root], explicit_file_mode=explicit_file_mode)
 
-        expected = [os.path.relpath(os.path.join(root, e).rstrip(os.path.sep)) for e in expected]
+        expected = [os.path.relpath(os.path.join(
+            root, e).rstrip(os.path.sep)) for e in expected]
         expected.append(files.rootpath)
         actual = files.get_minimal_syspath()
 
@@ -34,11 +35,13 @@ class TestSysPath(TestDataMixin, TestCase):
 class TestVirtualenvDetection(TestCase):
 
     def test_is_a_venv(self):
-        path = os.path.join(os.path.dirname(__file__), 'testdata', 'venvs', 'is_a_venv')
+        path = os.path.join(os.path.dirname(__file__),
+                            'testdata', 'venvs', 'is_a_venv')
         self.assertTrue(is_virtualenv(path))
 
     def test_not_a_venv(self):
-        path = os.path.join(os.path.dirname(__file__), 'testdata', 'venvs', 'not_a_venv')
+        path = os.path.join(os.path.dirname(__file__),
+                            'testdata', 'venvs', 'not_a_venv')
         self.assertFalse(is_virtualenv(path))
 
     def test_long_path_not_a_venv(self):

@@ -23,7 +23,8 @@ def filter_messages(relative_filepaths, root, messages):
     This method uses the information about suppressed messages from pylint to
     squash the unwanted redundant error from pyflakes and frosted.
     """
-    paths_to_ignore, lines_to_ignore, messages_to_ignore = get_suppressions(relative_filepaths, root, messages)
+    paths_to_ignore, lines_to_ignore, messages_to_ignore = get_suppressions(
+        relative_filepaths, root, messages)
 
     filtered = []
     for message in messages:

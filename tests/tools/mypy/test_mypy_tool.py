@@ -29,7 +29,8 @@ class TestMypyTool(TestCase):
             source="mypy", code="note", location=location, message="Important error"
         )
         self.assertEqual(
-            format_message('file.py:17: note: unused "type: ignore" comment'), expected
+            format_message(
+                'file.py:17: note: unused "type: ignore" comment'), expected
         )
 
     def test_format_message_without_character(self):
@@ -39,4 +40,5 @@ class TestMypyTool(TestCase):
         expected = Message(
             source="mypy", code="error", location=location, message="Important error"
         )
-        self.assertEqual(format_message("file.py:17: error: Important error"), expected)
+        self.assertEqual(format_message(
+            "file.py:17: error: Important error"), expected)

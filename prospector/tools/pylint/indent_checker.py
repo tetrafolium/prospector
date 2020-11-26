@@ -39,13 +39,15 @@ class IndentChecker(BaseTokenChecker):
                 if line.startswith('\t'):
                     if self.config.indent_strict_spaces:
                         # we have tabs but are configured to only allow spaces
-                        self.add_message('incorrect-indentation', line=line_num, args=('tabs', 'spaces'))
+                        self.add_message('incorrect-indentation',
+                                         line=line_num, args=('tabs', 'spaces'))
                     tab_count += 1
 
                 if line.startswith(' '):
                     if self.config.indent_strict_tabs:
                         # we have tabs but are configured to only allow spaces
-                        self.add_message('incorrect-indentation', line=line_num, args=('spaces', 'tabs'))
+                        self.add_message('incorrect-indentation',
+                                         line=line_num, args=('spaces', 'tabs'))
                     space_count += 1
 
         if tab_count > 0 and space_count > 0:
