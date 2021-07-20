@@ -3,6 +3,7 @@ FROM python:3-alpine AS linter-stage
 ### Install golang ...
 RUN apk add --update --no-cache go && \
     echo "+++ $(go version)"
+ENV GO111MODULE="auto"
 
 ENV GOBIN="$GOROOT/bin" \
     GOPATH="/.go" \
@@ -34,7 +35,6 @@ RUN ls -la "${OUTDIR}"
 RUN echo "<<< yamllint.issues ---"; cat -v "${OUTDIR}/yamllint.issues"; echo "--- yamllint.issues >>>"
 
 ### Convert yamllint issues to SARIF ...
-ENV GO111MODULE=auto
 RUN go run "${TOOLDIR}/yamllint/cmd/main.go" "${REPOPATH}" \
         < "${OUTDIR}/yamllint.issues" \
         > "${OUTDIR}/yamllint.sarif"
