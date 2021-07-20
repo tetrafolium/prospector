@@ -97,8 +97,9 @@ inspecode:
     # nose2:
     #   thresholds: {num-issues: 999}
 
-    prospector:
-      thresholds: {num-issues: 168}
+    ### Prospector was aborted unexpectedly. (codelift#2459)
+    # prospector:
+    #   thresholds: {num-issues: 169}
 
     pycodestyle:
       thresholds: {num-issues: 324}
