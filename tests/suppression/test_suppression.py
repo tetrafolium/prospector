@@ -4,7 +4,6 @@ from prospector.suppression import get_noqa_suppressions
 
 
 class SuppressionTest(unittest.TestCase):
-
     def _get_file_contents(self, name):
         path = os.path.join(os.path.dirname(__file__), 'testdata', name)
         with open(path) as testfile:

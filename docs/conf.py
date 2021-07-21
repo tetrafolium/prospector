@@ -93,7 +93,6 @@ pygments_style = 'sphinx'
 # If true, keep warnings as "system message" paragraphs in the built documents.
 #keep_warnings = False
 
-
 # -- Options for HTML output ----------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -178,7 +177,6 @@ html_static_path = ['_static']
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'Prospectordoc'
 
-
 # -- Options for LaTeX output ---------------------------------------------
 
 latex_elements = {
@@ -196,8 +194,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    ('index', 'Prospector.tex', u'Prospector Documentation',
-     u'Carl Crowder', 'manual'),
+    ('index', 'Prospector.tex', u'Prospector Documentation', u'Carl Crowder',
+     'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -220,19 +218,15 @@ latex_documents = [
 # If false, no module index is generated.
 #latex_domain_indices = True
 
-
 # -- Options for manual page output ---------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    ('index', 'prospector', u'Prospector Documentation',
-     [u'Carl Crowder'], 1)
-]
+man_pages = [('index', 'prospector', u'Prospector Documentation',
+              [u'Carl Crowder'], 1)]
 
 # If true, show URL addresses after external links.
 #man_show_urls = False
-
 
 # -- Options for Texinfo output -------------------------------------------
 
@@ -240,9 +234,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    ('index', 'Prospector', u'Prospector Documentation',
-     u'Carl Crowder', 'Prospector', 'One line description of project.',
-     'Miscellaneous'),
+    ('index', 'Prospector', u'Prospector Documentation', u'Carl Crowder',
+     'Prospector', 'One line description of project.', 'Miscellaneous'),
 ]
 
 # Documents to append as an appendix to all manuals.

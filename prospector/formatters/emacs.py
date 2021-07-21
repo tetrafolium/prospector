@@ -1,9 +1,6 @@
 from prospector.formatters.text import TextFormatter
 
-
-__all__ = (
-    'EmacsFormatter',
-)
+__all__ = ('EmacsFormatter', )
 
 
 class EmacsFormatter(TextFormatter):

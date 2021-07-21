@@ -6,7 +6,6 @@ from prospector.tools.base import ToolBase
 
 
 class ProspectorVulture(Vulture):
-
     def __init__(self, found_files):
         Vulture.__init__(self, exclude=None, verbose=False)
         self._files = found_files
@@ -21,10 +20,13 @@ class ProspectorVulture(Vulture):
             try:
                 module_string = read_py_file(module)
             except CouldNotHandleEncoding as err:
-                self._internal_messages.append(make_tool_error_message(
-                    module, 'vulture', 'V000',
-                    message='Could not handle the encoding of this file: %s' % err.encoding
-                ))
+                self._internal_messages.append(
+                    make_tool_error_message(
+                        module,
+                        'vulture',
+                        'V000',
+                        message='Could not handle the encoding of this file: %s'
+                        % err.encoding))
                 continue
             self.file = module
             self.filename = module
@@ -34,12 +36,14 @@ class ProspectorVulture(Vulture):
                 self.scan(module_string)
 
     def get_messages(self):
-        all_items = (
-            ('unused-function', 'Unused function %s', self.unused_funcs),
-            ('unused-property', 'Unused property %s', self.unused_props),
-            ('unused-variable', 'Unused variable %s', self.unused_vars),
-            ('unused-attribute', 'Unused attribute %s', self.unused_attrs)
-        )
+        all_items = (('unused-function', 'Unused function %s',
+                      self.unused_funcs),
+                     ('unused-property', 'Unused property %s',
+                      self.unused_props),
+                     ('unused-variable', 'Unused variable %s',
+                      self.unused_vars), ('unused-attribute',
+                                          'Unused attribute %s',
+                                          self.unused_attrs))
 
         vulture_messages = []
         for code, template, items in all_items:
@@ -68,6 +72,7 @@ class VultureTool(ToolBase):
     def run(self, found_files):
         vulture = ProspectorVulture(found_files)
         vulture.scavenge()
-        return [message
-                for message in vulture.get_messages()
-                if message.code not in self.ignore_codes]
+        return [
+            message for message in vulture.get_messages()
+            if message.code not in self.ignore_codes
+        ]

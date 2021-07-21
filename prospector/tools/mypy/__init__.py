@@ -3,19 +3,9 @@ from mypy import api
 from prospector.message import Location, Message
 from prospector.tools import ToolBase
 
-__all__ = (
-    'MypyTool',
-)
+__all__ = ('MypyTool', )
 
-
-MYPY_OPTIONS = [
-    'allow',
-    'check',
-    'disallow',
-    'no-check',
-    'no-warn',
-    'warn'
-]
+MYPY_OPTIONS = ['allow', 'check', 'disallow', 'no-check', 'no-warn', 'warn']
 
 
 def format_message(message):
@@ -32,12 +22,10 @@ def format_message(message):
         line=int(line),
         character=character,
     )
-    return Message(
-        source='mypy',
-        code=err_type.lstrip(" "),
-        location=location,
-        message=err_msg.lstrip(" ")
-    )
+    return Message(source='mypy',
+                   code=err_type.lstrip(" "),
+                   location=location,
+                   message=err_msg.lstrip(" "))
 
 
 class MypyTool(ToolBase):

@@ -13,14 +13,18 @@ from prospector.tools.profile_validator import ProfileValidationTool
 def _tool_not_available(name, install_option_name):
     class NotAvailableTool(ToolBase):
         def run(self, _):
-            raise FatalProspectorException("\nCannot run tool %s as support was not installed.\n"
-                                           "Please install by running 'pip install prospector[%s]'\n\n"
-                                           % (name, install_option_name))
+            raise FatalProspectorException(
+                "\nCannot run tool %s as support was not installed.\n"
+                "Please install by running 'pip install prospector[%s]'\n\n" %
+                (name, install_option_name))
 
     return NotAvailableTool
 
 
-def _optional_tool(name, package_name=None, tool_class_name=None, install_option_name=None):
+def _optional_tool(name,
+                   package_name=None,
+                   tool_class_name=None,
+                   install_option_name=None):
     package_name = 'prospector.tools.%s' % (package_name or name)
     tool_class_name = tool_class_name or '%sTool' % name.title()
     install_option_name = install_option_name or ('with_%s' % name)
@@ -50,13 +54,5 @@ TOOLS = {
     'bandit': _optional_tool('bandit'),
 }
 
-
-DEFAULT_TOOLS = (
-    'dodgy',
-    'mccabe',
-    'pyflakes',
-    'pep8',
-    'pylint',
-    'pep257',
-    'profile-validator'
-)
+DEFAULT_TOOLS = ('dodgy', 'mccabe', 'pyflakes', 'pep8', 'pylint', 'pep257',
+                 'profile-validator')

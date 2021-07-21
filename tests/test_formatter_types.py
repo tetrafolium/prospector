@@ -9,14 +9,16 @@ from prospector.profiles.profile import ProspectorProfile
 
 class FormatterTypeTest(TestCase):
     def test_formatter_types(self):
-        summary = {'started': datetime.datetime(2014, 1, 1),
-                   'completed': datetime.datetime(2014, 1, 1),
-                   'message_count': 0,
-                   'time_taken': '0',
-                   'libraries': [],
-                   'strictness': 'veryhigh',
-                   'profiles': '',
-                   'tools': []}
+        summary = {
+            'started': datetime.datetime(2014, 1, 1),
+            'completed': datetime.datetime(2014, 1, 1),
+            'message_count': 0,
+            'time_taken': '0',
+            'libraries': [],
+            'strictness': 'veryhigh',
+            'profiles': '',
+            'tools': []
+        }
         profile = ProspectorProfile(name='horse',
                                     profile_dict={},
                                     inherit_order=['horse'])

@@ -4,11 +4,9 @@ from prospector.formatters.base import Formatter
 
 
 class VSCodeFormatter(Formatter):
-
     """
     This formatter outputs messages in the same way as vscode prospector linter expects.
     """
-
     def render(self, summary=True, messages=True, profile=False):
         # this formatter will always ignore the summary and profile
         cur_loc = None
@@ -25,12 +23,13 @@ class VSCodeFormatter(Formatter):
                 output.append(header)
 
             template = '%(line)s,%(character)s,%(code)s,%(code)s:%(source)s %(message)s'
-            output.append(template % {
-                'line': message.location.line,
-                'character': message.location.character,
-                'source': message.source,
-                'code': message.code,
-                'message': message.message.strip()
-            })
+            output.append(
+                template % {
+                    'line': message.location.line,
+                    'character': message.location.character,
+                    'source': message.source,
+                    'code': message.code,
+                    'message': message.message.strip()
+                })
 
         return '\n'.join(output)

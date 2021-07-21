@@ -31,7 +31,10 @@ def filter_messages(relative_filepaths, root, messages):
         # first get rid of the pylint informational messages
         relative_message_path = os.path.relpath(message.location.path)
 
-        if message.source == 'pylint' and message.code in ('suppressed-message', 'file-ignored',):
+        if message.source == 'pylint' and message.code in (
+                'suppressed-message',
+                'file-ignored',
+        ):
             continue
 
         # some files are skipped entirely by messages
@@ -45,8 +48,10 @@ def filter_messages(relative_filepaths, root, messages):
 
         # and some lines have only certain messages explicitly ignored
         if relative_message_path in messages_to_ignore:
-            if message.location.line in messages_to_ignore[relative_message_path]:
-                if message.code in messages_to_ignore[relative_message_path][message.location.line]:
+            if message.location.line in messages_to_ignore[
+                    relative_message_path]:
+                if message.code in messages_to_ignore[relative_message_path][
+                        message.location.line]:
                     continue
 
         # otherwise this message was not filtered
