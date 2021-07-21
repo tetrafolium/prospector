@@ -25,7 +25,8 @@ class capture_output(object):  # noqa pylint:disable=invalid-name
 
     def __enter__(self):
         if self.hide:
-            self._prev_streams = [sys.stdout, sys.stderr, sys.__stdout__, sys.__stderr__]
+            self._prev_streams = [sys.stdout, sys.stderr,
+                                  sys.__stdout__, sys.__stderr__]
             self.stdout = CaptureStream()
             self.stderr = CaptureStream()
             sys.stdout, sys.__stdout__ = self.stdout, self.stdout

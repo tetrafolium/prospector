@@ -50,7 +50,8 @@ class Location(object):
         if self.path == other.path:
             if self.line == other.line:
                 return (self.character or -1) < (other.character or -1)
-            return (self.line or -1) < (other.line or -1)  # line can be None if it a file-global warning
+            # line can be None if it a file-global warning
+            return (self.line or -1) < (other.line or -1)
         return self.path < other.path
 
 

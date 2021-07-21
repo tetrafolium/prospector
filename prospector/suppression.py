@@ -28,7 +28,8 @@ from collections import defaultdict
 
 _FLAKE8_IGNORE_FILE = re.compile(r'flake8[:=]\s*noqa', re.IGNORECASE)
 _PEP8_IGNORE_LINE = re.compile(r'#\s+noqa', re.IGNORECASE)
-_PYLINT_SUPPRESSED_MESSAGE = re.compile(r'^Suppressed \'([a-z0-9-]+)\' \(from line \d+\)$')
+_PYLINT_SUPPRESSED_MESSAGE = re.compile(
+    r'^Suppressed \'([a-z0-9-]+)\' \(from line \d+\)$')
 
 
 def get_noqa_suppressions(file_contents):
@@ -96,7 +97,8 @@ def get_suppressions(relative_filepaths, root, messages):
             file_contents = encoding.read_py_file(abspath).split('\n')
         except encoding.CouldNotHandleEncoding as err:
             # TODO: this output will break output formats such as JSON
-            warnings.warn('{0}: {1}'.format(err.path, err.cause), ImportWarning)
+            warnings.warn('{0}: {1}'.format(
+                err.path, err.cause), ImportWarning)
             continue
 
         ignore_file, ignore_lines = get_noqa_suppressions(file_contents)
@@ -105,7 +107,8 @@ def get_suppressions(relative_filepaths, root, messages):
         lines_to_ignore[filepath] |= ignore_lines
 
     # now figure out which messages were suppressed by pylint
-    pylint_ignore_files, pylint_ignore_messages = _parse_pylint_informational(messages)
+    pylint_ignore_files, pylint_ignore_messages = _parse_pylint_informational(
+        messages)
     paths_to_ignore |= pylint_ignore_files
     for filepath, line in pylint_ignore_messages.items():
         for line_number, codes in line.items():
@@ -113,6 +116,7 @@ def get_suppressions(relative_filepaths, root, messages):
                 messages_to_ignore[filepath][line_number].add(('pylint', code))
                 if code in _PYLINT_EQUIVALENTS:
                     for equivalent in _PYLINT_EQUIVALENTS[code]:
-                        messages_to_ignore[filepath][line_number].add(equivalent)
+                        messages_to_ignore[filepath][line_number].add(
+                            equivalent)
 
     return paths_to_ignore, lines_to_ignore, messages_to_ignore

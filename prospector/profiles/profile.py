@@ -5,7 +5,8 @@ import os
 import yaml
 from prospector.tools import TOOLS
 
-BUILTIN_PROFILE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), 'profiles'))
+BUILTIN_PROFILE_PATH = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), 'profiles'))
 
 
 class ProfileNotFound(Exception):
@@ -42,7 +43,8 @@ class ProspectorProfile(object):
         self.ignore_paths = _ensure_list(profile_dict.get('ignore-paths', []))
         # The 'ignore' directive is an old one which should be deprecated at some point
         self.ignore_patterns = _ensure_list(
-            profile_dict.get('ignore-patterns', []) + profile_dict.get('ignore', [])
+            profile_dict.get('ignore-patterns', []) +
+            profile_dict.get('ignore', [])
         )
 
         self.output_format = profile_dict.get('output-format')
@@ -60,7 +62,8 @@ class ProspectorProfile(object):
 
         # TODO: this is needed by Landscape but not by prospector; there is probably a better place for it
         self.requirements = _ensure_list(profile_dict.get('requirements', []))
-        self.python_targets = _ensure_list(profile_dict.get('python-targets', []))
+        self.python_targets = _ensure_list(
+            profile_dict.get('python-targets', []))
 
         for tool in TOOLS.keys():
             conf = {
@@ -187,8 +190,10 @@ def _merge_tool_config(priority, base):
     pri_disabled = priority.get('disable') or []
     pri_enabled = priority.get('enable') or []
 
-    out['disable'] = list(set(pri_disabled) | (set(base_disabled) - set(pri_enabled)))
-    out['enable'] = list(set(pri_enabled) | (set(base_enabled) - set(pri_disabled)))
+    out['disable'] = list(set(pri_disabled) | (
+        set(base_disabled) - set(pri_enabled)))
+    out['enable'] = list(set(pri_enabled) | (
+        set(base_enabled) - set(pri_disabled)))
 
     return out
 
@@ -282,7 +287,8 @@ def _determine_implicit_inherits(profile_dict, already_inherits, shorthands_foun
 
 
 def _append_profiles(name, profile_path, data, inherit_list, allow_shorthand=False):
-    new_data, new_il, _ = _load_profile(name, profile_path, allow_shorthand=allow_shorthand)
+    new_data, new_il, _ = _load_profile(
+        name, profile_path, allow_shorthand=allow_shorthand)
     data.update(new_data)
     inherit_list += new_il
     return data, inherit_list
@@ -296,13 +302,16 @@ def _load_and_merge(name_or_path, profile_path, allow_shorthand=True, forced_inh
 
     if allow_shorthand:
         if 'docs' not in shorthands_found:
-            data, inherit_list = _append_profiles('no_doc_warnings', profile_path, data, inherit_list)
+            data, inherit_list = _append_profiles(
+                'no_doc_warnings', profile_path, data, inherit_list)
 
         if 'members' not in shorthands_found:
-            data, inherit_list = _append_profiles('no_member_warnings', profile_path, data, inherit_list)
+            data, inherit_list = _append_profiles(
+                'no_member_warnings', profile_path, data, inherit_list)
 
         if 'tests' not in shorthands_found:
-            data, inherit_list = _append_profiles('no_test_warnings', profile_path, data, inherit_list)
+            data, inherit_list = _append_profiles(
+                'no_test_warnings', profile_path, data, inherit_list)
 
         if 'strictness' not in shorthands_found:
             # if no strictness was specified, then we should manually insert the medium strictness
@@ -310,7 +319,8 @@ def _load_and_merge(name_or_path, profile_path, allow_shorthand=True, forced_inh
                 if inherit.startswith('strictness_'):
                     break
             else:
-                data, inherit_list = _append_profiles('strictness_medium', profile_path, data, inherit_list)
+                data, inherit_list = _append_profiles(
+                    'strictness_medium', profile_path, data, inherit_list)
 
     # Now we merge all of the values together, from 'right to left' (ie, from the
     # top of the inheritance tree to the bottom). This means that the lower down
@@ -342,7 +352,8 @@ def _load_profile(name_or_path, profile_path, shorthands_found=None,
     # There are some 'shorthand' options in profiles which implicitly mean that we
     # should inherit from some of prospector's built-in profiles
     if base_contents.get('allow-shorthand', True) and allow_shorthand:
-        extra_inherits, extra_shorthands = _determine_implicit_inherits(base_contents, inherits, shorthands_found)
+        extra_inherits, extra_shorthands = _determine_implicit_inherits(
+            base_contents, inherits, shorthands_found)
         inherits += extra_inherits
         shorthands_found |= extra_shorthands
 
