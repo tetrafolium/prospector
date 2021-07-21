@@ -8,10 +8,7 @@ from prospector.encoding import read_py_file, CouldNotHandleEncoding
 from prospector.message import Location, Message, make_tool_error_message
 from prospector.tools.base import ToolBase
 
-
-__all__ = (
-    'McCabeTool',
-)
+__all__ = ('McCabeTool', )
 
 
 class McCabeTool(ToolBase):
@@ -38,23 +35,29 @@ class McCabeTool(ToolBase):
                     filename=code_file,
                 )
             except CouldNotHandleEncoding as err:
-                messages.append(make_tool_error_message(
-                    code_file, 'mccabe', 'MC0000',
-                    message='Could not handle the encoding of this file: %s' % err.encoding
-                ))
+                messages.append(
+                    make_tool_error_message(
+                        code_file,
+                        'mccabe',
+                        'MC0000',
+                        message='Could not handle the encoding of this file: %s'
+                        % err.encoding))
                 continue
             except SyntaxError as err:
-                messages.append(make_tool_error_message(
-                    code_file, 'mccabe', 'MC0000',
-                    line=err.lineno, character=err.offset,
-                    message='Syntax Error'
-                ))
+                messages.append(
+                    make_tool_error_message(code_file,
+                                            'mccabe',
+                                            'MC0000',
+                                            line=err.lineno,
+                                            character=err.offset,
+                                            message='Syntax Error'))
                 continue
             except TypeError:
-                messages.append(make_tool_error_message(
-                    code_file, 'mccabe', 'MC0000',
-                    message='Unable to parse file'
-                ))
+                messages.append(
+                    make_tool_error_message(code_file,
+                                            'mccabe',
+                                            'MC0000',
+                                            message='Unable to parse file'))
                 continue
 
             visitor = PathGraphingAstVisitor()
@@ -63,14 +66,12 @@ class McCabeTool(ToolBase):
             for graph in visitor.graphs.values():
                 complexity = graph.complexity()
                 if complexity > self.max_complexity:
-                    location = Location(
-                        path=code_file,
-                        module=None,
-                        function=graph.entity,
-                        line=graph.lineno,
-                        character=0,
-                        absolute_path=True
-                    )
+                    location = Location(path=code_file,
+                                        module=None,
+                                        function=graph.entity,
+                                        line=graph.lineno,
+                                        character=0,
+                                        absolute_path=True)
                     message = Message(
                         source='mccabe',
                         code='MC0001',
@@ -86,7 +87,6 @@ class McCabeTool(ToolBase):
 
     def filter_messages(self, messages):
         return [
-            message
-            for message in messages
+            message for message in messages
             if message.code not in self.ignore_codes
         ]

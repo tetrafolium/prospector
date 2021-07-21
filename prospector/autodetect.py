@@ -6,9 +6,7 @@ from requirements_detector.detect import RequirementsNotFound
 from prospector import encoding
 from prospector.pathutils import is_virtualenv
 
-
 POSSIBLE_LIBRARIES = ('django', 'celery', 'flask')
-
 
 # see http://docs.python.org/2/reference/lexical_analysis.html#identifiers
 _FROM_IMPORT_REGEX = re.compile(r'^\s*from ([\._a-zA-Z0-9]+) import .*$')
@@ -55,8 +53,8 @@ def find_from_path(path):
                 names |= find_from_imports(contents)
             except encoding.CouldNotHandleEncoding as err:
                 # TODO: this output will break output formats such as JSON
-                warnings.warn('{0}: {1}'.format(
-                    err.path, err.cause), ImportWarning)
+                warnings.warn('{0}: {1}'.format(err.path, err.cause),
+                              ImportWarning)
 
         if len(names) == max_possible:
             # don't continue on recursing, there's no point!

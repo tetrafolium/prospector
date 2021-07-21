@@ -36,7 +36,8 @@ class Prospector(object):
             messages = blender.blend(messages)
 
         filepaths = found_files.iter_module_paths(abspath=False)
-        return postfilter.filter_messages(filepaths, self.config.workdir, messages)
+        return postfilter.filter_messages(filepaths, self.config.workdir,
+                                          messages)
 
     def execute(self):
 
@@ -46,7 +47,8 @@ class Prospector(object):
         summary.update(self.config.get_summary_information())
 
         found_files = find_python(self.config.ignores, self.config.paths,
-                                  self.config.explicit_file_mode, self.config.workdir)
+                                  self.config.explicit_file_mode,
+                                  self.config.workdir)
 
         # Run the tools
         messages = []
@@ -62,23 +64,30 @@ class Prospector(object):
                 # Tools can output to stdout/stderr in unexpected places, for example,
                 # pep257 emits warnings about __all__ and as pyroma exec's the setup.py
                 # file, it will execute any print statements in that, etc etc...
-                with capture_output(hide=not self.config.direct_tool_stdout) as capture:
+                with capture_output(
+                        hide=not self.config.direct_tool_stdout) as capture:
                     messages += tool.run(found_files)
 
                     if self.config.include_tool_stdout:
-                        loc = Location(self.config.workdir,
-                                       None, None, None, None)
+                        loc = Location(self.config.workdir, None, None, None,
+                                       None)
 
                         if capture.get_hidden_stderr():
                             msg = 'stderr from %s:\n%s' % (
                                 toolname, capture.get_hidden_stderr())
                             messages.append(
-                                Message(toolname, 'hidden-output', loc, message=msg))
+                                Message(toolname,
+                                        'hidden-output',
+                                        loc,
+                                        message=msg))
                         if capture.get_hidden_stdout():
                             msg = 'stdout from %s:\n%s' % (
                                 toolname, capture.get_hidden_stdout())
                             messages.append(
-                                Message(toolname, 'hidden-output', loc, message=msg))
+                                Message(toolname,
+                                        'hidden-output',
+                                        loc,
+                                        message=msg))
 
             except FatalProspectorException as fatal:
                 sys.stderr.write(fatal.message)
@@ -90,8 +99,7 @@ class Prospector(object):
                 else:
                     loc = Location(self.config.workdir, None, None, None, None)
                     msg = 'Tool %s failed to run (exception was raised)' % (
-                        toolname,
-                    )
+                        toolname, )
                     message = Message(
                         toolname,
                         'failure',
@@ -109,8 +117,8 @@ class Prospector(object):
         # on Python<=2.6 so we calculate it ourselves
         # See issue #60 and http://stackoverflow.com/a/3694895
         delta = (summary['completed'] - summary['started'])
-        total_seconds = (delta.microseconds + (delta.seconds +
-                                               delta.days * 24 * 3600) * 1e6) / 1e6
+        total_seconds = (delta.microseconds +
+                         (delta.seconds + delta.days * 24 * 3600) * 1e6) / 1e6
         summary['time_taken'] = '%0.2f' % total_seconds
 
         external_config = []
@@ -136,8 +144,8 @@ class Prospector(object):
         for report in output_reports:
             output_format, output_files = report
             self.summary['formatter'] = output_format
-            formatter = FORMATTERS[output_format](
-                self.summary, self.messages, self.config.profile)
+            formatter = FORMATTERS[output_format](self.summary, self.messages,
+                                                  self.config.profile)
             if not output_files:
                 self.write_to(formatter, sys.stdout)
             for output_file in output_files:
@@ -146,11 +154,10 @@ class Prospector(object):
 
     def write_to(self, formatter, target):
         # Produce the output
-        target.write(formatter.render(
-            summary=not self.config.messages_only,
-            messages=not self.config.summary_only,
-            profile=self.config.show_profile
-        ))
+        target.write(
+            formatter.render(summary=not self.config.messages_only,
+                             messages=not self.config.summary_only,
+                             profile=self.config.show_profile))
         target.write('\n')
 
 

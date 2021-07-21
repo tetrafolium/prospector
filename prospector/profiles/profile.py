@@ -16,7 +16,8 @@ class ProfileNotFound(Exception):
         self.profile_path = profile_path
 
     def __repr__(self):
-        return "Could not find profile %s; searched in %s" % (self.name, ':'.join(self.profile_path))
+        return "Could not find profile %s; searched in %s" % (
+            self.name, ':'.join(self.profile_path))
 
 
 class CannotParseProfile(Exception):
@@ -26,16 +27,15 @@ class CannotParseProfile(Exception):
         self.parse_error = parse_error
 
     def get_parse_message(self):
-        return '%s\n  on line %s : char %s' % (self.parse_error.problem,
-                                               self.parse_error.problem_mark.line,
-                                               self.parse_error.problem_mark.column)
+        return '%s\n  on line %s : char %s' % (
+            self.parse_error.problem, self.parse_error.problem_mark.line,
+            self.parse_error.problem_mark.column)
 
     def __repr__(self):
         return "Could not parse profile found at %s - it is not valid YAML" % self.filepath
 
 
 class ProspectorProfile(object):
-
     def __init__(self, name, profile_dict, inherit_order):
         self.name = name
         self.inherit_order = inherit_order
@@ -44,14 +44,15 @@ class ProspectorProfile(object):
         # The 'ignore' directive is an old one which should be deprecated at some point
         self.ignore_patterns = _ensure_list(
             profile_dict.get('ignore-patterns', []) +
-            profile_dict.get('ignore', [])
-        )
+            profile_dict.get('ignore', []))
 
         self.output_format = profile_dict.get('output-format')
         self.output_target = profile_dict.get('output-target')
         self.autodetect = profile_dict.get('autodetect')
-        self.uses = [uses for uses in _ensure_list(profile_dict.get('uses', []))
-                     if uses in ('django', 'celery', 'flask')]
+        self.uses = [
+            uses for uses in _ensure_list(profile_dict.get('uses', []))
+            if uses in ('django', 'celery', 'flask')
+        ]
         self.max_line_length = profile_dict.get('max-line-length')
 
         # informational shorthands
@@ -66,12 +67,7 @@ class ProspectorProfile(object):
             profile_dict.get('python-targets', []))
 
         for tool in TOOLS.keys():
-            conf = {
-                'disable': [],
-                'enable': [],
-                'run': None,
-                'options': {}
-            }
+            conf = {'disable': [], 'enable': [], 'run': None, 'options': {}}
             conf.update(profile_dict.get(tool, {}))
 
             if self.max_line_length is not None and tool in ('pylint', 'pep8'):
@@ -118,9 +114,14 @@ class ProspectorProfile(object):
         return yaml.safe_dump(self.as_dict())
 
     @staticmethod
-    def load(name_or_path, profile_path, allow_shorthand=True, forced_inherits=None):
+    def load(name_or_path,
+             profile_path,
+             allow_shorthand=True,
+             forced_inherits=None):
         # First simply load all of the profiles and those that it explicitly inherits from
-        data, inherits = _load_and_merge(name_or_path, profile_path, allow_shorthand,
+        data, inherits = _load_and_merge(name_or_path,
+                                         profile_path,
+                                         allow_shorthand,
                                          forced_inherits=forced_inherits or [])
         return ProspectorProfile(name_or_path, data, inherits)
 
@@ -180,7 +181,7 @@ def _merge_tool_config(priority, base):
         # pylint has extra 'load-plugins' option
         if key in ('run', 'full', 'none', 'load-plugins'):
             out[key] = value
-        elif key in ('options',):
+        elif key in ('options', ):
             out[key] = _simple_merge_dict(value, base.get(key, {}))
 
     # anything enabled in the 'priority' dict is removed
@@ -190,10 +191,10 @@ def _merge_tool_config(priority, base):
     pri_disabled = priority.get('disable') or []
     pri_enabled = priority.get('enable') or []
 
-    out['disable'] = list(set(pri_disabled) | (
-        set(base_disabled) - set(pri_enabled)))
-    out['enable'] = list(set(pri_enabled) | (
-        set(base_enabled) - set(pri_disabled)))
+    out['disable'] = list(
+        set(pri_disabled) | (set(base_disabled) - set(pri_enabled)))
+    out['enable'] = list(
+        set(pri_enabled) | (set(base_enabled) - set(pri_disabled)))
 
     return out
 
@@ -203,8 +204,15 @@ def _merge_profile_dict(priority, base):
     out = dict(base.items())
 
     for key, value in priority.items():
-        if key in ('strictness', 'doc-warnings', 'test-warnings', 'member-warnings',
-                   'output-format', 'autodetect', 'max-line-length',):
+        if key in (
+                'strictness',
+                'doc-warnings',
+                'test-warnings',
+                'member-warnings',
+                'output-format',
+                'autodetect',
+                'max-line-length',
+        ):
             # some keys are simple values which are overwritten
             out[key] = value
         elif key in ('ignore', 'ignore-patterns', 'ignore-paths', 'uses',
@@ -256,10 +264,12 @@ def _determine_member_warnings(profile_dict):
     member_warnings = profile_dict.get('member-warnings')
     if member_warnings is None:
         return None, False
-    return ('member_warnings' if member_warnings else 'no_member_warnings'), True
+    return ('member_warnings'
+            if member_warnings else 'no_member_warnings'), True
 
 
-def _determine_implicit_inherits(profile_dict, already_inherits, shorthands_found):
+def _determine_implicit_inherits(profile_dict, already_inherits,
+                                 shorthands_found):
     # Note: the ordering is very important here - the earlier items
     # in the list have precedence over the later items. The point of
     # the doc/test/pep8 profiles is usually to restore items which were
@@ -286,32 +296,45 @@ def _determine_implicit_inherits(profile_dict, already_inherits, shorthands_foun
     return inherits, shorthands_found
 
 
-def _append_profiles(name, profile_path, data, inherit_list, allow_shorthand=False):
-    new_data, new_il, _ = _load_profile(
-        name, profile_path, allow_shorthand=allow_shorthand)
+def _append_profiles(name,
+                     profile_path,
+                     data,
+                     inherit_list,
+                     allow_shorthand=False):
+    new_data, new_il, _ = _load_profile(name,
+                                        profile_path,
+                                        allow_shorthand=allow_shorthand)
     data.update(new_data)
     inherit_list += new_il
     return data, inherit_list
 
 
-def _load_and_merge(name_or_path, profile_path, allow_shorthand=True, forced_inherits=None):
+def _load_and_merge(name_or_path,
+                    profile_path,
+                    allow_shorthand=True,
+                    forced_inherits=None):
     # First simply load all of the profiles and those that it explicitly inherits from
-    data, inherit_list, shorthands_found = _load_profile(name_or_path, profile_path,
-                                                         allow_shorthand=allow_shorthand,
-                                                         forced_inherits=forced_inherits or [])
+    data, inherit_list, shorthands_found = _load_profile(
+        name_or_path,
+        profile_path,
+        allow_shorthand=allow_shorthand,
+        forced_inherits=forced_inherits or [])
 
     if allow_shorthand:
         if 'docs' not in shorthands_found:
-            data, inherit_list = _append_profiles(
-                'no_doc_warnings', profile_path, data, inherit_list)
+            data, inherit_list = _append_profiles('no_doc_warnings',
+                                                  profile_path, data,
+                                                  inherit_list)
 
         if 'members' not in shorthands_found:
-            data, inherit_list = _append_profiles(
-                'no_member_warnings', profile_path, data, inherit_list)
+            data, inherit_list = _append_profiles('no_member_warnings',
+                                                  profile_path, data,
+                                                  inherit_list)
 
         if 'tests' not in shorthands_found:
-            data, inherit_list = _append_profiles(
-                'no_test_warnings', profile_path, data, inherit_list)
+            data, inherit_list = _append_profiles('no_test_warnings',
+                                                  profile_path, data,
+                                                  inherit_list)
 
         if 'strictness' not in shorthands_found:
             # if no strictness was specified, then we should manually insert the medium strictness
@@ -319,8 +342,9 @@ def _load_and_merge(name_or_path, profile_path, allow_shorthand=True, forced_inh
                 if inherit.startswith('strictness_'):
                     break
             else:
-                data, inherit_list = _append_profiles(
-                    'strictness_medium', profile_path, data, inherit_list)
+                data, inherit_list = _append_profiles('strictness_medium',
+                                                      profile_path, data,
+                                                      inherit_list)
 
     # Now we merge all of the values together, from 'right to left' (ie, from the
     # top of the inheritance tree to the bottom). This means that the lower down
@@ -334,8 +358,12 @@ def _load_and_merge(name_or_path, profile_path, allow_shorthand=True, forced_inh
     return merged, inherit_list
 
 
-def _load_profile(name_or_path, profile_path, shorthands_found=None,
-                  already_loaded=None, allow_shorthand=True, forced_inherits=None):
+def _load_profile(name_or_path,
+                  profile_path,
+                  shorthands_found=None,
+                  already_loaded=None,
+                  allow_shorthand=True,
+                  forced_inherits=None):
     # recursively get the contents of the basic profile and those it inherits from
     base_contents = _load_content(name_or_path, profile_path)
 
@@ -366,7 +394,8 @@ def _load_profile(name_or_path, profile_path, shorthands_found=None,
 
         already_loaded.append(inherit_profile)
         new_cd, new_il, new_sh = _load_profile(inherit_profile, profile_path,
-                                               shorthands_found, already_loaded, allow_shorthand)
+                                               shorthands_found,
+                                               already_loaded, allow_shorthand)
         contents_dict.update(new_cd)
         inherit_order += new_il
         shorthands_found |= new_sh

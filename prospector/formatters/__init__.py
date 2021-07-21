@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 from prospector.formatters import json, text, grouped, emacs, yaml, pylint, xunit, vscode
 
-
-__all__ = (
-    'FORMATTERS',
-)
-
+__all__ = ('FORMATTERS', )
 
 FORMATTERS = {
     'json': json.JsonFormatter,
