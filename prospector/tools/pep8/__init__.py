@@ -106,7 +106,8 @@ class Pep8Tool(ToolBase):
         if prospector_config.use_external_config('pep8'):
             use_config = True
 
-            paths = [os.path.join(found_files.rootpath, name) for name in PROJECT_CONFIG]
+            paths = [os.path.join(found_files.rootpath, name)
+                     for name in PROJECT_CONFIG]
             paths.append(USER_CONFIG)
             ext_loc = prospector_config.external_config_location('pep8')
             if ext_loc is not None:
@@ -161,7 +162,8 @@ class Pep8Tool(ToolBase):
             # adding prospector-flavoured configuration.
             # pylint: disable=attribute-defined-outside-init
             self.checker.options.select = ()
-            self.checker.options.ignore = tuple(prospector_config.get_disabled_messages('pep8'))
+            self.checker.options.ignore = tuple(
+                prospector_config.get_disabled_messages('pep8'))
 
             if 'max-line-length' in prospector_config.tool_options('pep8'):
                 self.checker.options.max_line_length = \

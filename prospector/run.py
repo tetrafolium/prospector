@@ -66,14 +66,19 @@ class Prospector(object):
                     messages += tool.run(found_files)
 
                     if self.config.include_tool_stdout:
-                        loc = Location(self.config.workdir, None, None, None, None)
+                        loc = Location(self.config.workdir,
+                                       None, None, None, None)
 
                         if capture.get_hidden_stderr():
-                            msg = 'stderr from %s:\n%s' % (toolname, capture.get_hidden_stderr())
-                            messages.append(Message(toolname, 'hidden-output', loc, message=msg))
+                            msg = 'stderr from %s:\n%s' % (
+                                toolname, capture.get_hidden_stderr())
+                            messages.append(
+                                Message(toolname, 'hidden-output', loc, message=msg))
                         if capture.get_hidden_stdout():
-                            msg = 'stdout from %s:\n%s' % (toolname, capture.get_hidden_stdout())
-                            messages.append(Message(toolname, 'hidden-output', loc, message=msg))
+                            msg = 'stdout from %s:\n%s' % (
+                                toolname, capture.get_hidden_stdout())
+                            messages.append(
+                                Message(toolname, 'hidden-output', loc, message=msg))
 
             except FatalProspectorException as fatal:
                 sys.stderr.write(fatal.message)
@@ -104,7 +109,8 @@ class Prospector(object):
         # on Python<=2.6 so we calculate it ourselves
         # See issue #60 and http://stackoverflow.com/a/3694895
         delta = (summary['completed'] - summary['started'])
-        total_seconds = (delta.microseconds + (delta.seconds + delta.days * 24 * 3600) * 1e6) / 1e6
+        total_seconds = (delta.microseconds + (delta.seconds +
+                                               delta.days * 24 * 3600) * 1e6) / 1e6
         summary['time_taken'] = '%0.2f' % total_seconds
 
         external_config = []
@@ -112,7 +118,8 @@ class Prospector(object):
             if configured_by is not None:
                 external_config.append((tool, configured_by))
         if len(external_config) > 0:
-            summary['external_config'] = ', '.join(['%s: %s' % info for info in external_config])
+            summary['external_config'] = ', '.join(
+                ['%s: %s' % info for info in external_config])
 
         self.summary = summary
         self.messages = self.messages + messages
@@ -129,7 +136,8 @@ class Prospector(object):
         for report in output_reports:
             output_format, output_files = report
             self.summary['formatter'] = output_format
-            formatter = FORMATTERS[output_format](self.summary, self.messages, self.config.profile)
+            formatter = FORMATTERS[output_format](
+                self.summary, self.messages, self.config.profile)
             if not output_files:
                 self.write_to(formatter, sys.stdout)
             for output_file in output_files:
@@ -144,7 +152,6 @@ class Prospector(object):
             profile=self.config.show_profile
         ))
         target.write('\n')
-
 
 
 def get_parser():

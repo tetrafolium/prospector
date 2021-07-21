@@ -20,7 +20,8 @@ class GroupedFormatter(TextFormatter):
         groups = defaultdict(lambda: defaultdict(list))
 
         for message in self.messages:
-            groups[message.location.path][message.location.line].append(message)
+            groups[message.location.path][message.location.line].append(
+                message)
 
         for filename in sorted(groups.keys()):
             output.append(filename)
@@ -34,7 +35,8 @@ class GroupedFormatter(TextFormatter):
                             message.source,
                             message.code,
                             message.message,
-                            (' (col %s)' % message.location.character) if message.location.character else '',
+                            (' (col %s)' %
+                             message.location.character) if message.location.character else '',
                         )
                     )
 

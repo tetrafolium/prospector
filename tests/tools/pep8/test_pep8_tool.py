@@ -20,7 +20,8 @@ class TestPep8Tool(TestCase):
         self.pep8_tool = Pep8Tool()
 
     def test_absolute_path_is_computed_correctly(self):
-        root = os.path.join(os.path.dirname(__file__), 'testpath', 'testfile.py')
+        root = os.path.join(os.path.dirname(__file__),
+                            'testpath', 'testfile.py')
         root_sep_split = root.split(os.path.sep)
         root_os_split = os.path.split(root)
         found_files = find_python([], [root], explicit_file_mode=True)
@@ -31,7 +32,8 @@ class TestPep8Tool(TestCase):
                          [os.path.join(*root_os_split)])
 
     def test_pycodestyle_space_and_tabs(self):
-        root = os.path.join(os.path.dirname(__file__), 'testpath', 'test_space_tab.py')
+        root = os.path.join(os.path.dirname(__file__),
+                            'testpath', 'test_space_tab.py')
         found_files = find_python([], [root], explicit_file_mode=True)
         self.pep8_tool.configure(self.config, found_files)
         messages = self.pep8_tool.run([])
