@@ -2,8 +2,8 @@
 inspecode:
 
   global:
-    runtime:
-      python: 3
+    # runtime:
+    #   python: 3
 
   tools:
 
